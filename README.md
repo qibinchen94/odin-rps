@@ -1,2 +1,2 @@
 # odin-rps
-Rock Paper Scissors
+This is a project for the Odin Project JavaScript Basics, which simulates the game "Rock Paper Scissors". Check the details [here](https://www.theodinproject.com/paths/foundations/courses/foundations/lessons/rock-paper-scissors).

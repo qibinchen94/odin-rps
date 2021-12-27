@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rock Paper Scissors</title>
+</head>
+<body>
+    <script>
+        let computerSelection;
+        let playerSelection;
+        let computerScore = 0;
+        let playerScore = 0;
+        let winner;
+        game();
+        function game() {
+            for (let i = 0; i < 5; i++) {
+                computerSelection = computerPlay();
+                playerSelection = prompt('What\'s your choice:').toUpperCase();     
+                while (playerSelection !== 'ROCK' && playerSelection !== 'PAPER' && playerSelection !== 'SCISSORS') {
+                    playerSelection = prompt('Invalid input, please choose another one').toUpperCase(); 
+                };
+                winner = roundPlay(playerSelection, computerSelection);
+                console.log(winner);                
+            }
+            let whoWins = (playerScore > computerScore) ? 'You win' : ((playerScore === computerScore) ? 'Tie game' : 'You lose');
+            console.log('Game Over! ' + `${whoWins}`);    
+        };
+
+
+        // Generate random number in [0, 1, 2]
+        // 0 = 'Rock', 1 = 'Paper', 2 = 'Scissors'
+        function computerPlay() {
+            const ranNum = Math.floor(Math.random(3)*3); 
+            let computerSelect;
+            switch (ranNum) {
+                case 0:
+                    computerSelect = 'ROCK';
+                    break;
+                case 1:
+                    computerSelect = 'PAPER';
+                    break;
+                case 2:
+                    computerSelect = 'SCISSORS';
+            }
+            return computerSelect;
+        };
+
+        // Play the Rock Paper Scissors game.
+        // Return a string declares the winner
+        function roundPlay(player, computer) {
+            let winner;
+            switch (player) {
+                case 'ROCK':
+                    switch (computer) {
+                        case 'ROCK':
+                            winner = 'It\'s a tie!';
+                            break;
+                        case 'PAPER':
+                            winner = 'You lose! ' + `${computer}` + ' beats ' + `${player}` ;
+                            computerScore += 1;
+                            break;
+                        case 'SCISSORS':
+                            winner = 'You win! ' + `${player}` + ' beats ' + `${computer}` ;    
+                            playerScore += 1;
+                            break;
+                    };
+                    break;
+                case 'PAPER':
+                    switch (computer) {
+                        case 'ROCK':
+                            winner = 'You win! ' + `${player}` + ' beats ' + `${computer}` ;    
+                            playerScore += 1;
+                            break;
+                        case 'PAPER':
+                            winner = 'It\'s a tie!';
+                            break;
+                        case 'SCISSORS':
+                            winner = 'You lose! ' + `${computer}` + ' beats ' + `${player}` ;
+                            computerScore += 1;
+                            break;
+                    };
+                    break;
+                case 'SCISSORS':
+                    switch (computer) {
+                        case 'ROCK':
+                            winner = 'You lose! ' + `${computer}` + ' beats ' + `${player}` ;
+                            computerScore += 1;
+                            break;
+                        case 'PAPER':
+                            winner = 'You win! ' + `${player}` + ' beats ' + `${computer}` ;    
+                            playerScore += 1;
+                            break;
+                        case 'SCISSORS':
+                            winner = 'It\'s a tie!';
+                            break;
+                    };
+                    break;
+            }
+            return winner;
+        };
+    </script>
+</body>
+</html>
