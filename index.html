@@ -12,93 +12,55 @@
         let playerSelection;
         let computerScore = 0;
         let playerScore = 0;
-        let winner;
-        game();
-        function game() {
+        const choices = ['Rock', 'Paper', 'Scissors'];
+        
+        playGame();
+
+        function playGame() {
             for (let i = 0; i < 5; i++) {
                 computerSelection = computerPlay();
-                playerSelection = prompt('What\'s your choice:').toUpperCase();     
-                while (playerSelection !== 'ROCK' && playerSelection !== 'PAPER' && playerSelection !== 'SCISSORS') {
-                    playerSelection = prompt('Invalid input, please choose another one').toUpperCase(); 
+                playerSelection = capitalize(prompt('What\'s your choice? Rock, paper or Scissors?'));
+                while (playerSelection !== 'Rock' && 
+                        playerSelection !== 'Paper' &&
+                        playerSelection !== 'Scissors') {
+                    playerSelection = capitalize(prompt('Invalid input, please choose another one')); 
                 };
-                winner = roundPlay(playerSelection, computerSelection);
-                console.log(winner);                
+                roundResult = playRound(playerSelection, computerSelection);
+                console.log(roundResult[0]);                
+                if(roundResult[1] === 'player') playerScore++; 
+                else if (roundResult[1] === 'computer') computerScore++; 
             }
-            let whoWins = (playerScore > computerScore) ? 'You win' : ((playerScore === computerScore) ? 'Tie game' : 'You lose');
-            console.log('Game Over! ' + `${whoWins}`);    
+            let gameResult = playerScore > computerScore ?
+                 'You win' : 
+                 ((playerScore === computerScore) ? 
+                    'Tie game' :
+                    'You lose');
+            console.log('Game Over! ' + `${gameResult}`);    
         };
 
 
-        // Generate random number in [0, 1, 2]
-        // 0 = 'Rock', 1 = 'Paper', 2 = 'Scissors'
+        // Randomly choose from choices = ['Rock', 'Paper', 'Scissors']
         function computerPlay() {
-            const ranNum = Math.floor(Math.random(3)*3); 
-            let computerSelect;
-            switch (ranNum) {
-                case 0:
-                    computerSelect = 'ROCK';
-                    break;
-                case 1:
-                    computerSelect = 'PAPER';
-                    break;
-                case 2:
-                    computerSelect = 'SCISSORS';
-            }
-            return computerSelect;
+            return choices[Math.floor(Math.random(choices.length)*choices.length)]; 
         };
+
+        function capitalize(str) {
+            return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+        }
 
         // Play the Rock Paper Scissors game.
         // Return a string declares the winner
-        function roundPlay(player, computer) {
-            let winner;
-            switch (player) {
-                case 'ROCK':
-                    switch (computer) {
-                        case 'ROCK':
-                            winner = 'It\'s a tie!';
-                            break;
-                        case 'PAPER':
-                            winner = 'You lose! ' + `${computer}` + ' beats ' + `${player}` ;
-                            computerScore += 1;
-                            break;
-                        case 'SCISSORS':
-                            winner = 'You win! ' + `${player}` + ' beats ' + `${computer}` ;    
-                            playerScore += 1;
-                            break;
-                    };
-                    break;
-                case 'PAPER':
-                    switch (computer) {
-                        case 'ROCK':
-                            winner = 'You win! ' + `${player}` + ' beats ' + `${computer}` ;    
-                            playerScore += 1;
-                            break;
-                        case 'PAPER':
-                            winner = 'It\'s a tie!';
-                            break;
-                        case 'SCISSORS':
-                            winner = 'You lose! ' + `${computer}` + ' beats ' + `${player}` ;
-                            computerScore += 1;
-                            break;
-                    };
-                    break;
-                case 'SCISSORS':
-                    switch (computer) {
-                        case 'ROCK':
-                            winner = 'You lose! ' + `${computer}` + ' beats ' + `${player}` ;
-                            computerScore += 1;
-                            break;
-                        case 'PAPER':
-                            winner = 'You win! ' + `${player}` + ' beats ' + `${computer}` ;    
-                            playerScore += 1;
-                            break;
-                        case 'SCISSORS':
-                            winner = 'It\'s a tie!';
-                            break;
-                    };
-                    break;
-            }
-            return winner;
+        function playRound(player, computer) {
+            let result = ['Tie game!', 'Tie']; // [Round result message, round winner]
+            if (player === computer) {
+                return result;
+            } else if ((player === 'Rock' && computer === 'Scissors') ||
+                    (player === 'Paper' && computer === 'Rock') ||
+                    (player === 'Scissors' && computer === 'Paper')){
+                return result = [`You win! ${player} beats ${computer}`, 'player'];
+            } else {
+                return result = [`You lose! ${computer} beats ${player}`, 'computer'];
+            };
         };
     </script>
 </body>
